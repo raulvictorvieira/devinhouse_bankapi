@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/raulvictorvieira/devinhouse_bankapi/issues"
   },
-  "homepage": "https://github.com/raulvictorvieira/devinhouse_bankapi#readme"
+  "homepage": "https://github.com/raulvictorvieira/devinhouse_bankapi#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
+  }
 }
