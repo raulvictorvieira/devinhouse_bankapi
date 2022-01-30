@@ -1,4 +1,3 @@
-const { get } = require('express/lib/response');
 const { getData, createOrUpdateData, validateFields } = require('../utils/functions');
 
 module.exports = {
