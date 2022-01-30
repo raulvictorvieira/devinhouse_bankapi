@@ -23,6 +23,33 @@ module.exports = {
 
     },
 
+    async updateOneUser(req, res) {
+        const { id } = req.params;
+        const { name, email } = req.body;
+        const users = getData();
+        const existUser = users.filter((item) => item.id === Number(id));
+
+        const [ user ] = existUser;
+        if(!user) {
+            return res.status(400).send({ message: "Usuário não encontrado." })
+        }
+
+        const updateUser = users.map((user) => {
+            if(user.id === Number(id)) {
+                return {
+                    id: Number(id),
+                    name: !name ? user.name : name,
+                    email: !email ? user.email : email 
+                }
+            } else {
+                return { ...user }
+            }
+        })
+
+        createOrUpdateData(updateUser);
+        return res.status(201).send({ message: 'Usuário atualizado com sucesso!' })
+    },
+
     async oneUser(req, res) {
         const { id } = req.params
         const users = getData()
