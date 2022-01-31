@@ -6,13 +6,13 @@
             "id":1,
             "price": 136.2,
             "typesOfExpenses": "Food",
-            "date": "10-12-2021",
+            "date": "10/12/2021",
             "name": "SuperMarket"
         }, {
             "id":2,
             "price": 300.8,
             "typesOfExpenses": "Games",
-            "date": "10-01-2022",
+            "date": "10/01/2022",
             "name": "Steam"
         }]
     },
@@ -23,7 +23,7 @@
             "id": 1,
             "price": 20.5,
             "typesOfExpenses": "Lunch",
-            "date": "05-01-2022",
+            "date": "05/01/2022",
             "name": "Coffe & Lunch"
         }]
     },
@@ -34,7 +34,7 @@
             "id": 1,
             "price": 5.6,
             "typesOfExpenses": "Candy",
-            "date": "9-11-2021",
+            "date": "9/11/2021",
             "name": "Candy Shop"
         }]
     },
@@ -45,19 +45,19 @@
             "id": 1,
             "price": 780.2,
             "typesOfExpenses": "Home Expenses",
-            "date": "25-01-2022",
+            "date": "25/01/2022",
             "name": "Bank"
         }, {
             "id": 1,
             "price": 50,
             "typesOfExpenses": "Trip",
-            "date": "18-12-2021",
+            "date": "18/12/2021",
             "name": "123 Milhas"
         }, {
             "id": 1,
             "price": 48.8,
             "typesOfExpenses": "Show",
-            "date": "30-12-2021",
+            "date": "30/12/2021",
             "name": "Hard Rock Cafe"
         }]
     },
@@ -68,7 +68,7 @@
             "id": 1,
             "price": 57,
             "typesOfExpenses": "Toys",
-            "date": "06-06-2021",
+            "date": "06/06/2021",
             "name": "Toy Store (eu ri desse trocadilho, me desculpe)"
         }]
     },
@@ -79,7 +79,7 @@
             "id": 1,
             "price": 90,
             "typesOfExpenses": "Pet",
-            "date": "17-12-2021",
+            "date": "17/12/2021",
             "name": "Pet Shop"
         }]
     }

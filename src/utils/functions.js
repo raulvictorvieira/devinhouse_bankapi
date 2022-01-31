@@ -1,13 +1,13 @@
 const req = require('express/lib/request');
 const fileSystem = require('fs')
 
-function getData() {
-    const result = JSON.parse(fileSystem.readFileSync('src/database/users.json', 'utf8'))
+function getData(data) {
+    const result = JSON.parse(fileSystem.readFileSync(`src/database/${data}`, 'utf8'))
     return result
 }
 
-function createOrUpdateData(data) {
-    fileSystem.writeFileSync('src/database/users.json', JSON.stringify(data));
+function createOrUpdateData(path, data) {
+    fileSystem.writeFileSync(`src/database/${path}`, JSON.stringify(data));
 }
 
 function validateFields(data) {

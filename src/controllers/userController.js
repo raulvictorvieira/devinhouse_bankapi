@@ -5,7 +5,7 @@ module.exports = {
     async createNewUser(req, res) {
 
        const  { name, email } = req.body;
-       const users = getData();
+       const users = getData('users.json');
        const validate = validateFields(req.body)
        if (validate.length >= 1) {
            return res.status(400).send({ message: `O(s) campo(s) - ${validate.join(', ')} - é (são) obrigatório(s)!` })
@@ -17,7 +17,7 @@ module.exports = {
                email: email
            }
        ]
-       createOrUpdateData(createNewUser);
+       createOrUpdateData('users.json', createNewUser);
        return res.status(201).send({message: 'Usuário criado com sucesso!'})
 
     },
@@ -25,7 +25,7 @@ module.exports = {
     async updateOneUser(req, res) {
         const { id } = req.params;
         const { name, email } = req.body;
-        const users = getData();
+        const users = getData('users.json');
         const existUser = users.filter((item) => item.id === Number(id));
 
         const [ user ] = existUser;
@@ -45,13 +45,13 @@ module.exports = {
             }
         })
 
-        createOrUpdateData(updateUser);
+        createOrUpdateData('users.json', updateUser);
         return res.status(201).send({ message: 'Usuário atualizado com sucesso!' })
     },
 
     async oneUser(req, res) {
         const { id } = req.params
-        const users = getData()
+        const users = getData('users.json')
         try {
             const user = users.filter((item) => item.id === Number(id))
 
