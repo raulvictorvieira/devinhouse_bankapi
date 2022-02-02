@@ -26,8 +26,8 @@ module.exports = {
         const { id } = req.params;
         const { name, email } = req.body;
         const users = getData('users.json');
+        
         const existUser = users.filter((item) => item.id === Number(id));
-
         const [ user ] = existUser;
         if(!user) {
             return res.status(400).send({ message: "Usuário não encontrado." })
