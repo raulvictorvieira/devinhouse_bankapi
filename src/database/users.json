@@ -2,31 +2,51 @@
     {
         "id": 1,
         "name": "Douglas",
-        "e-mail": "douglas123@gmail.com"
+        "email": "douglas123@gmail.com"
     },
     {
         "id": 2,
         "name": "Maria",
-        "e-mail": "maria123@gmail.com"
+        "email": "maria123@gmail.com"
     },
     {
         "id": 3,
         "name": "Cleo",
-        "e-mail": "cleo123@gmail.com"
+        "email": "cleo123@gmail.com"
     },
     {
         "id": 4,
         "name": "Bruno",
-        "e-mail": "bruno123@gmail.com"
+        "email": "bruno123@gmail.com"
     },
     {
         "id": 5,
         "name": "Priscila",
-        "e-mail": "pri123@gmail.com"
+        "email": "pri123@gmail.com"
     },
     {
         "id": 6,
         "name": "Nick",
-        "e-mail": "nick123@gmail.com"
+        "email": "nick123@gmail.com"
+    },
+    {
+        "id": 7,
+        "name": "Pedro",
+        "email": "pedro123@gmail.com"
+    },
+    {
+        "id": 8,
+        "name": "Raul",
+        "email": "raul123@gmail.com"
+    },
+    {
+        "id": 9,
+        "name": "Lucas",
+        "email": "lucas123@gmail.com"
+    },
+    {
+        "id": 10,
+        "name": "Guilherme",
+        "email": "gui123@gmail.com"
     }
 ]

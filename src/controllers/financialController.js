@@ -36,21 +36,39 @@ module.exports = {
                     [firstRow[index]]: !cell ? '' : cell
                 }
             })
-            return Object.assign({}, {id: trade.financialData.length +1}, ...result);
+            return Object.assign({}, ...result);
         });
 
         //Conferir se há alguma transação já feita pelo cliente
         const tradeUser = financialData.filter((trade) => trade.userId === Number(userID));
         const [trade] = tradeUser;
-        if (trade.userId === Number(userID)) {
-            
-        } else {
+        
+        //Se não encontrar alguma transação com o usuário especificado, é criada uma nova transação
+        if (trade === undefined) {
             const createNewTrade = [ ...financialData, {
                 "id": financialData.length + 1,
-                "userId": userID,
-                "financialData": manipulatedDatas
+                "userId": Number(userID),
+                "financialData": manipulatedDatas.map((item, index) => {
+                    return {
+                        id: index + 1, ...item
+                    }
+                })
             }]
-            return createOrUpdateData('financial.json', createNewTrade);
+            await createOrUpdateData('financial.json', createNewTrade);
+        
+        //Caso encontre transação com o usuário, é incrementada as novas à lista de objetos
+        } else {
+            trade.financialData = [
+                ...trade.financialData, ...manipulatedDatas.map((item, index) => {
+                    return {
+                        id: trade.financialData.length + index + 1, ...item
+                    }
+                })
+            ]
+
+            financialData[trade.id -1] = trade;
+
+            await createOrUpdateData('financial.json', financialData);
         }
  
         return res.status(201).send({message: 'Gastos importados com sucesso!'});
