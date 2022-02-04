@@ -7,7 +7,7 @@ module.exports = {
         const { userID } = req.params;
         const financialData = getData('financial.json');
 
-        //Validação de do parâmetro de ID do Usuário
+        //Validação do Usuário
         const users = getData('users.json');
         const existUser = users.filter((item) => item.id === Number(userID));
         const [ user ] = existUser;
@@ -72,6 +72,33 @@ module.exports = {
         }
  
         return res.status(201).send({message: 'Gastos importados com sucesso!'});
+    },
+
+    async deleteTrade(req, res) {
+        const { userID, financialID } = req.params;
+
+        //Validação de Usuário
+        const users = getData('users.json');
+        const existUser = users.filter((item) => item.id === Number(userID));
+        const [ user ] = existUser;
+        if(!user) {
+            return res.status(400).send({ message: "Usuário não encontrado." })
+        }
+        //Validação de Transação
+        const financialData = getData('financial.json');
+        const existTrade = financialData.filter((trade) => trade.id === Number(financialID));
+        const [ trade ] = existTrade;
+
+        //Confere se a transação bate com o usuário e faz a deleção
+        if(trade === undefined || trade.userId !== user.id) {
+            console.log('caiu no else');
+            return res.status(400).send({ message: "Essa transação não existe ou não pertence ao ID informado." })
+        } else if (trade.userId === Number(userID)){
+            console.log('caiu no if');
+            const deletedTrade = financialData.filter((item) => item.userId !== Number(userID));
+            await createOrUpdateData('financial.json', deletedTrade);
+            return res.status(400).send({ message: "Transação deletada." })
+        }
     }
 
 }
