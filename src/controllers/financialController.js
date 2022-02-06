@@ -145,7 +145,7 @@ module.exports = {
         // #swagger.parameters['userID'] = { description: 'ID do usuário.' }
         /* #swagger.parameters['type'] = {
                in: 'query',
-               description: 'ex.:type=Food',
+               description: 'Exemplos de filtros aceitos: Food, Games, Trip ou Toys',
                type: 'string'
         } */
 

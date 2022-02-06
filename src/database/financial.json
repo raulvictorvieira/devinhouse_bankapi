@@ -37,6 +37,12 @@
             "typesOfExpenses": "Lunch",
             "date": "05/01/2022",
             "name": "Coffe & Lunch"
+        },{
+            "id": 2,
+            "price": 16.9,
+            "typesOfExpenses": "Lunch",
+            "date": "06/06/2021",
+            "name": "Burguer House"
         }]
     },
     {
