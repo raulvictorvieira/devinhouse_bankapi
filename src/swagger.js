@@ -36,11 +36,11 @@ const doc = {
         $email: "gordon123@halflife.com"
     },
     Financial: {
-      id: 5,
-        userId: 8,
+      id: 1,
+        userId: 1998,
         financialData: [{
             id: 1,
-            price: 57,
+            price: 57.9,
             typesOfExpenses: "Toys",
             date: "06/06/2021",
             name: "Toy Store (eu ri desse trocadilho, me desculpe)"

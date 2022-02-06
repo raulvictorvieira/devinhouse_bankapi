@@ -111,13 +111,30 @@
         ],
         "responses": {
           "200": {
-            "description": "Usuário encontrado.",
+            "description": "Usuário encontrado com sucesso!",
             "schema": {
               "$ref": "#/definitions/User"
             }
           },
           "404": {
             "description": "Não existe usuário na lista com este ID."
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para obter dados cadastrais de todos os usuários do banco de dados.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuários encontrados."
+          },
+          "404": {
+            "description": "Usuários não encontrados."
           }
         }
       }
@@ -256,6 +273,50 @@
       ],
       "xml": {
         "name": "AddUser"
+      }
+    },
+    "Financial": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "userId": {
+          "type": "number",
+          "example": 1998
+        },
+        "financialData": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "price": {
+                "type": "number",
+                "example": 57.9
+              },
+              "typesOfExpenses": {
+                "type": "string",
+                "example": "Toys"
+              },
+              "date": {
+                "type": "string",
+                "example": "06/06/2021"
+              },
+              "name": {
+                "type": "string",
+                "example": "Toy Store (eu ri desse trocadilho, me desculpe)"
+              }
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "Financial"
       }
     }
   }

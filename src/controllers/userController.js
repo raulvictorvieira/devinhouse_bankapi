@@ -99,9 +99,9 @@ module.exports = {
             }
             /* #swagger.responses[200] = { 
                schema: { $ref: "#/definitions/User" },
-               description: 'Usuário encontrado.' 
+               description: 'Usuário encontrado com sucesso!' 
         } */
-            await res.status(200).json({ user })
+            await res.status(200).json({ message: 'Usuário encontrados com sucesso!', user })
 
         } catch (error) {
             /* #swagger.responses[404] = { 
@@ -109,6 +109,26 @@ module.exports = {
         }   */
             await res.status(404).json(error.message)
         }
+    },
+
+    async allUsers(req, res) {
+        
+        // #swagger.tags = ['User']
+        // #swagger.description = 'Endpoint para obter dados cadastrais de todos os usuários do banco de dados.'
+
+        const users = getData('users.json')
+
+        if(!users) {
+            /* #swagger.responses[404] = {
+               description: 'Usuários não encontrados.' 
+        } */
+            await res.status(404).json('Usuários não encontrados')
+        }
+
+        /* #swagger.responses[200] = {
+               description: 'Usuários encontrados.' 
+        } */
+        await res.status(200).json({ message: 'Usuários encontrados com sucesso!', users })
     }
 
 }
