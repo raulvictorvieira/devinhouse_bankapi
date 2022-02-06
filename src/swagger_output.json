@@ -179,7 +179,7 @@
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint para devolver despesas de um usuário. Se necessário, é possível utilizar filtros com o tipo de despesa.",
+        "description": "Endpoint para devolver despesas de um usuário através de filtro com o tipo de despesa desejada.",
         "parameters": [
           {
             "name": "userID",
@@ -196,6 +196,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "404": {
             "description": "Este usuário não possui transação!"
           }
