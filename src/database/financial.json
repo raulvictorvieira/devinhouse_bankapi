@@ -14,6 +14,18 @@
             "typesOfExpenses": "Games",
             "date": "10/01/2022",
             "name": "Steam"
+        },{
+            "id":2,
+            "price": 34.9,
+            "typesOfExpenses": "Games",
+            "date": "10/01/2022",
+            "name": "Origin"
+        },{
+            "id":2,
+            "price": 199,
+            "typesOfExpenses": "Games",
+            "date": "10/01/2022",
+            "name": "Epic Games"
         }]
     },
     {
@@ -87,6 +99,12 @@
             "typesOfExpenses": "Food",
             "date": "20/09/2021",
             "name": "Balaio"
+        },{
+            "id": 3,
+            "price": 80.5,
+            "typesOfExpenses": "Food",
+            "date": "26/12/2021",
+            "name": "Brutus Burguer"
         }]
     }
 ]

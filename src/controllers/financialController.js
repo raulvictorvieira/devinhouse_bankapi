@@ -104,10 +104,11 @@ module.exports = {
         // #swagger.parameters['financialID'] = { description: 'ID referente às suas transações.' }
 
         const { userID, financialID } = req.params;
+        const users = getData('users.json');
+        const financialData = getData('financial.json');
 
         //Validação de Usuário
-        const users = getData('users.json');
-        const existUser = users.filter((item) => item.id === Number(userID));
+        const existUser = users.filter((user) => user.id === Number(userID));
         const [ user ] = existUser;
         if(!user) {
             /* #swagger.responses[404] = { 
@@ -115,8 +116,8 @@ module.exports = {
                 } */
             return res.status(404).send({ message: "Usuário não encontrado." })
         }
+
         //Validação de Transação
-        const financialData = getData('financial.json');
         const existTransaction = financialData.filter((transaction) => transaction.id === Number(financialID));
         const [ transaction ] = existTransaction;
 
@@ -139,23 +140,46 @@ module.exports = {
     async totalExpenses(req, res) {
 
         // #swagger.tags = ['Financial']
-        // #swagger.description = 'Endpoint para devolver despesas de um usuário. Se necessário, é possível utilizar filtros.'
+        // #swagger.description = 'Endpoint para devolver despesas de um usuário através de filtro com o tipo de despesa desejada.'
 
         // #swagger.parameters['userID'] = { description: 'ID do usuário.' }
         /* #swagger.parameters['type'] = {
                in: 'query',
-               description: 'ex.:despesa=Food',
+               description: 'ex.:type=Food',
                type: 'string'
         } */
 
         const { userID } = req.params;
         const { type } = req.query;
-        
-        const users = getData('user.json');
+         
+        const users = getData('users.json');
         const financialData = getData('financial.json');
+        
+        const existUser = users.filter((item) => item.id === Number(userID));
+        const [ user ] = existUser;
+        if(!user) {
+            /* #swagger.responses[404] = { 
+               description: 'Usuário não encontrado!' 
+                } */
+            return res.status(404).send({ message: "Usuário não encontrado!" })
+        };
 
-        
-        
+        //Validação de Transação
+        const existTransaction = financialData.filter((transaction) => transaction.userId === Number(userID));
+        const [ transaction ] = existTransaction;
+        if(!transaction) {
+            /* #swagger.responses[404] = { 
+               description: 'Este usuário não possui transação!' 
+                } */
+            return res.status(404).send({ message: "Este usuário não possui transação!" })
+        };
+
+        //Buscar despesas que correspondem à query inserida
+        const expenses = transaction.financialData.filter((expense) => {
+            return expense.typesOfExpenses === type
+        });
+
+        return res.status(200).send({ message: `Suas despesas de - ${type} - foram localizadas com sucesso`, expenses })
     }
 
 }
