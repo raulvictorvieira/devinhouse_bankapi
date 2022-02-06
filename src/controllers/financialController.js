@@ -4,6 +4,19 @@ const { getData, createOrUpdateData } = require('../utils/functions');
 module.exports = {
 
     async xlsxImportExpenses(req, res) {
+
+        // #swagger.tags = ['Financial']
+        // #swagger.description = 'Endpoint que recebe um arquivo xlsx com informações de despesas do usuário e os importa para o banco de dados.'
+
+        /*
+          #swagger.consumes = ['multipart/form-data']  
+          #swagger.parameters['xlsxFile'] = {
+              in: 'formData',
+              type: 'file',
+              required: 'true',
+              description: 'A planilha deve ter o seguinte cabeçalho: price, typeOfExpenses, date, name',
+        } */
+
         const { userID } = req.params;
         const financialData = getData('financial.json');
 
@@ -12,7 +25,10 @@ module.exports = {
         const existUser = users.filter((item) => item.id === Number(userID));
         const [ user ] = existUser;
         if(!user) {
-            return res.status(400).send({ message: "Usuário não encontrado." })
+            /* #swagger.responses[404] = { 
+               description: 'Usuário não encontrado!' 
+        } */
+            return res.status(404).send({ message: "Usuário não encontrado." })
         }
 
         //Transformando o buffer do xlsx em dados
@@ -27,7 +43,10 @@ module.exports = {
             return keys[index] === item
         });
         if(!existAllKeys || firstRow.length !== 4) {
-            return res.status(400).send({ message: 'A planilha deve estar na seguinte ordem: price, typeOfExpenses, date, name' })
+            /* #swagger.responses[400] = { 
+               description: 'A planilha deve estar na seguinte ordem: price, typeOfExpenses, date, name.' 
+        } */
+            return res.status(400).send({ message: 'A planilha deve estar na seguinte ordem: price, typeOfExpenses, date, name.' })
         }
         const filterRows = rows.filter((_, index) => index !== 0);
         const manipulatedDatas = filterRows.map((row) => {
@@ -40,12 +59,12 @@ module.exports = {
         });
 
         //Conferir se há alguma transação já feita pelo cliente
-        const tradeUser = financialData.filter((trade) => trade.userId === Number(userID));
-        const [trade] = tradeUser;
+        const transactionUser = financialData.filter((transaction) => transaction.userId === Number(userID));
+        const [ transaction ] = transactionUser;
         
         //Se não encontrar alguma transação com o usuário especificado, é criada uma nova transação
-        if (trade === undefined) {
-            const createNewTrade = [ ...financialData, {
+        if (transaction === undefined) {
+            const createNewTransaction = [ ...financialData, {
                 "id": financialData.length + 1,
                 "userId": Number(userID),
                 "financialData": manipulatedDatas.map((item, index) => {
@@ -54,27 +73,36 @@ module.exports = {
                     }
                 })
             }]
-            await createOrUpdateData('financial.json', createNewTrade);
+            await createOrUpdateData('financial.json', createNewTransaction);
         
         //Caso encontre transação com o usuário, é incrementada as novas à lista de objetos
         } else {
-            trade.financialData = [
-                ...trade.financialData, ...manipulatedDatas.map((item, index) => {
+            transaction.financialData = [
+                ...transaction.financialData, ...manipulatedDatas.map((item, index) => {
                     return {
-                        id: trade.financialData.length + index + 1, ...item
+                        id: transaction.financialData.length + index + 1, ...item
                     }
                 })
             ]
 
-            financialData[trade.id -1] = trade;
+            financialData[transaction.id -1] = transaction;
 
             await createOrUpdateData('financial.json', financialData);
         }
- 
+        /* #swagger.responses[201] = { 
+               description: 'Gastos importados com sucesso!' 
+        } */
         return res.status(201).send({message: 'Gastos importados com sucesso!'});
     },
 
-    async deleteTrade(req, res) {
+    async deleteTransaction(req, res) {
+
+        // #swagger.tags = ['Financial']
+        // #swagger.description = 'Endpoint para deletar transações de um usuário específico.'
+
+        // #swagger.parameters['userID'] = { description: 'ID do usuário.' }
+        // #swagger.parameters['financialID'] = { description: 'ID referente às suas transações.' }
+
         const { userID, financialID } = req.params;
 
         //Validação de Usuário
@@ -82,23 +110,52 @@ module.exports = {
         const existUser = users.filter((item) => item.id === Number(userID));
         const [ user ] = existUser;
         if(!user) {
-            return res.status(400).send({ message: "Usuário não encontrado." })
+            /* #swagger.responses[404] = { 
+               description: 'Usuário não encontrado!' 
+                } */
+            return res.status(404).send({ message: "Usuário não encontrado." })
         }
         //Validação de Transação
         const financialData = getData('financial.json');
-        const existTrade = financialData.filter((trade) => trade.id === Number(financialID));
-        const [ trade ] = existTrade;
+        const existTransaction = financialData.filter((transaction) => transaction.id === Number(financialID));
+        const [ transaction ] = existTransaction;
 
         //Confere se a transação bate com o usuário e faz a deleção
-        if(trade === undefined || trade.userId !== user.id) {
-            console.log('caiu no else');
-            return res.status(400).send({ message: "Essa transação não existe ou não pertence ao ID informado." })
-        } else if (trade.userId === Number(userID)){
-            console.log('caiu no if');
-            const deletedTrade = financialData.filter((item) => item.userId !== Number(userID));
-            await createOrUpdateData('financial.json', deletedTrade);
-            return res.status(400).send({ message: "Transação deletada." })
+        if(transaction === undefined || transaction.userId !== user.id) {
+            /* #swagger.responses[400] = { 
+               description: 'Essa transação não existe ou não pertence ao ID informado!' 
+                } */
+            return res.status(400).send({ message: "Essa transação não existe ou não pertence ao ID informado!" })
+        } else if (transaction.userId === Number(userID)){
+            const deletedTransaction = financialData.filter((item) => item.userId !== Number(userID));
+            await createOrUpdateData('financial.json', deletedTransaction);
+            /* #swagger.responses[200] = { 
+               description: 'Transação deletada com sucesso!' 
+                } */
+            return res.status(200).send({ message: "Transação deletada com sucesso!" })
         }
+    },
+
+    async totalExpenses(req, res) {
+
+        // #swagger.tags = ['Financial']
+        // #swagger.description = 'Endpoint para devolver despesas de um usuário. Se necessário, é possível utilizar filtros.'
+
+        // #swagger.parameters['userID'] = { description: 'ID do usuário.' }
+        /* #swagger.parameters['type'] = {
+               in: 'query',
+               description: 'ex.:despesa=Food',
+               type: 'string'
+        } */
+
+        const { userID } = req.params;
+        const { type } = req.query;
+        
+        const users = getData('user.json');
+        const financialData = getData('financial.json');
+
+        
+        
     }
 
 }

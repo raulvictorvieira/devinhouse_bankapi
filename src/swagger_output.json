@@ -1,0 +1,262 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "DEVinBank Conta 365",
+    "description": "API desenvolvida em NodeJS(express) para o módulo 2 do DEVinHouse."
+  },
+  "host": "localhost:3333",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "User",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Financial",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json",
+    "application/xml"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/user/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para criar um novo usuário.",
+        "parameters": [
+          {
+            "name": "createNewUser",
+            "in": "body",
+            "description": "Informações do usuário a ser criado.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso!"
+          },
+          "400": {
+            "description": "O(s) campo(s) - \"campos com erros\" - é (são) obrigatório(s)!"
+          }
+        }
+      }
+    },
+    "/api/v1/user/{id}": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para atualizar um usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário atualizado com sucesso!."
+          },
+          "404": {
+            "description": "Usuário não encontrado."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para obter dados cadastrais de um usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "Não existe usuário na lista com este ID."
+          }
+        }
+      }
+    },
+    "/api/v1/financial/{userID}": {
+      "post": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que recebe um arquivo xlsx com informações de despesas do usuário e os importa para o banco de dados.",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "xlsxFile",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "A planilha deve ter o seguinte cabeçalho: price, typeOfExpenses, date, name"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Gastos importados com sucesso!"
+          },
+          "400": {
+            "description": "A planilha deve estar na seguinte ordem: price, typeOfExpenses, date, name."
+          },
+          "404": {
+            "description": "Usuário não encontrado!"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint para devolver despesas de um usuário. Se necessário, é possível utilizar filtros.",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário."
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "ex.:despesa=Food",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/v1/financial/{userID}/{financialID}": {
+      "delete": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint para deletar transações de um usuário específico.",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário."
+          },
+          {
+            "name": "financialID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID referente às suas transações."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transação deletada com sucesso!"
+          },
+          "400": {
+            "description": "Essa transação não existe ou não pertence ao ID informado!"
+          },
+          "404": {
+            "description": "Usuário não encontrado!"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1998
+        },
+        "name": {
+          "type": "string",
+          "example": "Gordon Freeman"
+        },
+        "email": {
+          "type": "string",
+          "example": "gordon123@halflife.com"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "AddUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Gordon Freeman"
+        },
+        "email": {
+          "type": "string",
+          "example": "gordon123@halflife.com"
+        }
+      },
+      "required": [
+        "name",
+        "email"
+      ],
+      "xml": {
+        "name": "AddUser"
+      }
+    }
+  }
+}

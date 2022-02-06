@@ -4,12 +4,25 @@ module.exports = {
 
     async createNewUser(req, res) {
 
+        // #swagger.tags = ['User']
+        // #swagger.description = 'Endpoint para criar um novo usuário.'
+
+        /* #swagger.parameters['createNewUser'] = {
+               in: 'body',
+               description: 'Informações do usuário a ser criado.',
+               required: true,
+               schema: { $ref: "#/definitions/AddUser" }
+        } */
+
        const  { name, email } = req.body;
        const users = getData('users.json');
 
        //Validação dos campos a serem preenchidos
        const validate = validateFields(req.body)
        if (validate.length >= 1) {
+           /* #swagger.responses[400] = { 
+               description: 'O(s) campo(s) - "campos com erros" - é (são) obrigatório(s)!' 
+        } */
            return res.status(400).send({ message: `O(s) campo(s) - ${validate.join(', ')} - é (são) obrigatório(s)!` })
         }
 
@@ -22,11 +35,19 @@ module.exports = {
            }
        ]
        await createOrUpdateData('users.json', createNewUser);
+       /* #swagger.responses[201] = { 
+               description: 'Usuário criado com sucesso!' 
+        } */
        return res.status(201).send({message: 'Usuário criado com sucesso!'})
 
     },
 
     async updateOneUser(req, res) {
+
+        // #swagger.tags = ['User']
+        // #swagger.description = 'Endpoint para atualizar um usuário.'
+        // #swagger.parameters['id'] = { description: 'ID do usuário.' }
+
         const { id } = req.params;
         const { name, email } = req.body;
         const users = getData('users.json');
@@ -37,7 +58,10 @@ module.exports = {
 
         //Se não existir, é retornado um erro 400
         if(!user) {
-            return res.status(400).send({ message: "Usuário não encontrado." })
+            /* #swagger.responses[404] = { 
+               description: 'Usuário não encontrado.' 
+            } */
+            return res.status(404).send({ message: "Usuário não encontrado." })
         }
 
         //Populando o banco com os novos dados
@@ -52,24 +76,38 @@ module.exports = {
                 return { ...user }
             }
         })
-
+        /* #swagger.responses[201] = { 
+            description: 'Usuário atualizado com sucesso!.' 
+        } */
         await createOrUpdateData('users.json', updateUser);
         return res.status(201).send({ message: 'Usuário atualizado com sucesso!' })
     },
 
     async oneUser(req, res) {
+        
+        // #swagger.tags = ['User']
+        // #swagger.description = 'Endpoint para obter dados cadastrais de um usuário.'
+        // #swagger.parameters['id'] = { description: 'ID do usuário.' }
+
         const { id } = req.params
         const users = getData('users.json')
         try {
             const user = users.filter((item) => item.id === Number(id))
 
             if (user.length === 0) {
-                throw new Error('Não existe usuário na lista com este ID')
+                throw new Error('Não existe usuário na lista com este ID.')
             }
+            /* #swagger.responses[200] = { 
+               schema: { $ref: "#/definitions/User" },
+               description: 'Usuário encontrado.' 
+        } */
             await res.status(200).json({ user })
 
         } catch (error) {
-            await res.status(400).json(error.message)
+            /* #swagger.responses[404] = { 
+               description: 'Não existe usuário na lista com este ID.' 
+        }   */
+            await res.status(404).json(error.message)
         }
     }
 
