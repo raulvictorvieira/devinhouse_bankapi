@@ -65,7 +65,7 @@ endpoint: /api/v1/financial/:userID/:financialID
 ```
 
 ## Documentação
-Para facilitar a utilização e a compreenção da API é importante verificar toda a documentação e fazer os testes dos endpoints através do swagger pela porta [http://localhost:3333/docs](http://localhost:3333/docs), conforme citei antes.
+Para facilitar a utilização e a compreenção da API, é importante verificar toda a documentação e fazer os testes dos endpoints através do swagger pela porta [http://localhost:3333/docs](http://localhost:3333/docs), conforme citado antes.
 Abaixo, uma screenshot de como é a visualização dos endpoints na documentação:
 
 ![](https://user-images.githubusercontent.com/81329365/152688052-462e56a5-2ac7-4788-bbd3-a1ea65b016ac.png)
@@ -81,5 +81,8 @@ Abaixo, uma screenshot de como é a visualização dos endpoints na documentaç�
 - xlsx-populate
 - nodemon
 
-## License
+## Licença
 [MIT](LICENSE) License
+
+## DevinHouse - React | NodeJS
+![DEVinHouse](https://user-images.githubusercontent.com/81329365/152703043-fb718a84-5c88-4d95-af15-2834666ccfac.png)
