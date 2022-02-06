@@ -191,7 +191,7 @@
           {
             "name": "type",
             "in": "query",
-            "description": "ex.:type=Food",
+            "description": "Exemplos de filtros aceitos: Food, Games, Trip ou Toys",
             "type": "string"
           }
         ],
