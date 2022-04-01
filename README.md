@@ -1,8 +1,8 @@
 # DEVinBank - Conta 365
+Projeto realizado para avaliação de módulo do DEVinHouse. Os requisitos do projeto se encontram [aqui](https://docs.google.com/document/d/1WaBNrGNBo8ujxcHX2nnx28u82eHq0OS_6JySb_bkldE/edit).
 
-## Introdução
-Para primeiro acesso é importante instalar as dependências do projeto através do comando a seguir:
 
+## Instalação
 ```bash
 npm install
 ```
@@ -27,7 +27,7 @@ server:
 documentação:
 [http://localhost:3333/docs](http://localhost:3333/docs)
 
-## Descrição da API
+## Utilização da API
 A API contém 7 endpoints separadas por funcionalidades voltadas especificamentes ao -usuário- e outras ao -financeiro-, conforme descrições a seguir:
 
 ### Usuários
